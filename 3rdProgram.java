@@ -9,11 +9,25 @@ class Student {
     int grades[] = new int[5];
     int CGPA;
     
+    
+    
+    int CalculateCGPA(int grades[],int credits[],int NoOfCredits){
+        
+        int sum = 0;
+        
+        for(int i=0; i<s.credits.length; i++){
+            sum += s.credits[i]*s.grades[i];
+        }
+        
+        return sum/NoOfCredits;
+    }
  
     
     public static void main(String[] args) {
         
         Student s = new Student();
+        
+        int SumOfCredits=0;
         
         Scanner sc = new Scanner(System.in); // Corrected to use System.in
         
@@ -38,8 +52,10 @@ class Student {
         System.out.println("Student Name: " + s.name);
         
         System.out.println("Credits of 5 Subjects: ");
-        for (int i = 0; i < s.credits.length; i++) // Use s.credits.length instead of credits.size()
+        for (int i = 0; i < s.credits.length; i++){ // Use s.credits.length instead of credits.size()
+            SumOfCredits += s.credits[i];
             System.out.print(s.credits[i] + " ");
+        }
         
         System.out.println("\nMarks of 5 Subjects: ");
         for (int i = 0; i < s.marks.length; i++) // Use s.marks.length instead of marks.size()
@@ -60,7 +76,8 @@ class Student {
         for (int i = 0; i < s.grades.length; i++) // Use s.marks.length instead of marks.size()
             System.out.print(s.grades[i] + " ");
             
-        
+        int res = CalculateCGPA(grades,credits,SumOfCredits);
+         System.out.print("Your CGPA:  "+res);
         sc.close(); // Close the scanner
     }
 }
