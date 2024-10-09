@@ -57,6 +57,9 @@ class Student {
         System.out.println("Grades of 5 Subjects: ");
         for (int i = 0; i < s.grades.length; i++) // Use s.marks.length instead of marks.size()
             System.out.print(s.grades[i] + " ");
+
+        
+        System.out.println("Sum of Credits: "+SumOfCredits);
     }
  
     
