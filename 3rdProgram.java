@@ -59,7 +59,6 @@ class Student {
             System.out.print(s.grades[i] + " ");
 
         
-        System.out.println("Sum of Credits: "+SumOfCredits);
     }
  
     
