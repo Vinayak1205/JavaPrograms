@@ -64,37 +64,47 @@ class Student {
     
     public static void main(String[] args) {
         
-        Student s = new Student();
+        Scanner sc = new Scanner(System.in); 
+        int NoOfStudents;
+	
+        System.out.println("Enter the no of Students: ");
+	    NoOfStudents = sc.nextInt();
+	
+        
+        Student s[] = new Student[NoOfStudents];
         int SumOfCredits = 0;
          
-       
-        Scanner sc = new Scanner(System.in); // Corrected to use System.in
+       // Corrected to use System.in
+        for(int i = 0; i < NoOfStudents; i++ ){
+            System.out.println("\nEnter the USN: ");
+            s[i] = new Student();
+            s[i].usn = sc.nextInt();
+             sc.nextLine(); 
         
-        System.out.println("Enter the USN: ");
-        s.usn = sc.nextInt();
-        sc.nextLine(); // Consume the newline character after nextInt()
+            System.out.println("Enter the Name: ");
+            s[i].name = sc.nextLine();
         
-        System.out.println("Enter the Name: ");
-        s.name = sc.nextLine();
-        
-        System.out.println("Enter 5 Subject Credits: ");
-        for (int i = 0; i < s.credits.length; i++) {
+            System.out.println("Enter 5 Subject Credits: ");
+            for (int j = 0; j < 5; j++) {
            
-            s.credits[i] = sc.nextInt();
-            SumOfCredits += s.credits[i];
-        }
-        System.out.println("Enter 5 Subject Marks: ");
-        for (int i = 0; i < s.marks.length; i++) // Use s.marks.length instead of marks.size()
-            s.marks[i] = sc.nextInt();
+                s[i].credits[j] = sc.nextInt();
+                SumOfCredits += s[i].credits[j];
+            }
+            
+            System.out.println("Enter 5 Subject Marks: ");
+            for (int k = 0; k < 5; k++) 
+                s[i].marks[k] = sc.nextInt();
         
      
-        displayStudentDetails(s);
+            displayStudentDetails(s[i]);
             
-        ConvertMarksToGrades(s);
+            ConvertMarksToGrades(s[i]);
        
             
-        float res = CalculateCGPA(s,SumOfCredits);
-         System.out.print("Your CGPA:  "+res);
+            float res = CalculateCGPA(s[i],SumOfCredits);
+            System.out.print("Your CGPA:  "+res);
+        }
         sc.close(); // Close the scanner
+        
     }
 }
