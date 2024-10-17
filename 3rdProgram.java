@@ -1,110 +1,121 @@
 import java.util.Scanner;
 
 class Student {
-    
-    int usn;
+   
     String name;
-    int credits[] = new int[5];
-    int marks[] = new int[5];
-    int grades[] = new int[5];
-    int CGPA;
-    
-    
-    
-    static float CalculateCGPA(Student s,int NoOfCredits){
-        
-        int sum = 0;
-        
-        for(int i=0; i<s.credits.length; i++){
-            sum += s.credits[i]*s.grades[i];
-        }
-        
-        return (float)sum/NoOfCredits;
+    String usn;
+    int[] marks = new int[5];  
+    double sgpaSem1;
+    double sgpaSem2;
+    double cgpa;
+
+
+    public Student(String name, String usn) {
+        this.name = name;
+        this.usn = usn;
     }
-    
-    public static void displayStudentDetails(Student s){
-           System.out.println("Student Details: ");
-        System.out.println("Student USN: " + s.usn);
-        System.out.println("Student Name: " + s.name);
-        
-         int SumOfCredits=0;
-        
-        
-        System.out.println("Credits of 5 Subjects: ");
-        for (int i = 0; i < s.credits.length; i++){ // Use s.credits.length instead of credits.size()
-            SumOfCredits += s.credits[i];
-            System.out.print(s.credits[i] + " ");
-        }
-        
-        System.out.println("\nMarks of 5 Subjects: ");
-        for (int i = 0; i < s.marks.length; i++) // Use s.marks.length instead of marks.size()
-            System.out.print(s.marks[i] + " ");
-            
+
+    private int calculateGradePoint(int marks) {
+        if (marks >= 90) 
+            return 10;
+        else 
+        if (marks >= 80) 
+            return 9;
+        else 
+        if (marks >= 70) 
+            return 8;
+        else 
+        if (marks >= 60) 
+            return 7;
+        else 
+        if (marks >= 50) 
+            return 6;
+        else 
+        if (marks >= 40)
+            return 5;
+        else return 0; 
     }
-    
-    public static void ConvertMarksToGrades(Student s){
-        
-         for(int i=0; i<s.marks.length; i++){
-                
-                if(s.marks[i] == 100)
-                    s.grades[i] = 10;
-                    
-                else
-                    s.grades[i] = (s.marks[i]+10)/10;
+
+
+    public double calculateSGPA(int[] marks) {
+        int totalGradePoints = 0;
+        for (int i = 0; i < marks.length; i++) {
+            totalGradePoints += calculateGradePoint(marks[i]);
         }
-        
-        
-        System.out.println("Grades of 5 Subjects: ");
-        for (int i = 0; i < s.grades.length; i++) // Use s.marks.length instead of marks.size()
-            System.out.print(s.grades[i] + " ");
+        return totalGradePoints / 5.0;
+    }
+
+    public void calculateCGPA() {
+        this.cgpa = (this.sgpaSem1 + this.sgpaSem2) / 2.0;
+    }
+
+    public void displayDetails() {
+        System.out.println("Name: " + name);
+        System.out.println("USN: " + usn);
+        System.out.println("Marks: ");
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Subject " + (i + 1) + ": " + marks[i]);
+        }
+        System.out.println("Sgpa Sem 1: " + sgpaSem1);
+        System.out.println("Sgpa Sem1r 2: " + sgpaSem2);
+        System.out.println("Cgpa: " + cgpa);
+        System.out.println("\n");
+    }
+}
+
+public class StudentDetails {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of students: ");
+        int n = scanner.nextInt();
+
+        Student[] students = new Student[n];
+
+  
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter details for Student " + (++i) + ":");
+
+          
+            System.out.print("Enter name: ");
+            scanner.nextLine(); 
+            String name = scanner.nextLine();
+            System.out.print("Enter USN: ");
+            String usn = scanner.nextLine();
 
         
-    }
- 
-    
-    public static void main(String[] args) {
-        
-        Scanner sc = new Scanner(System.in); 
-        int NoOfStudents;
-	
-        System.out.println("Enter the no of Students: ");
-	    NoOfStudents = sc.nextInt();
-	
-        
-        Student s[] = new Student[NoOfStudents];
-        int SumOfCredits = 0;
-         
-       // Corrected to use System.in
-        for(int i = 0; i < NoOfStudents; i++ ){
-            System.out.println("\nEnter the USN: ");
-            s[i] = new Student();
-            s[i].usn = sc.nextInt();
-             sc.nextLine(); 
-        
-            System.out.println("Enter the Name: ");
-            s[i].name = sc.nextLine();
-        
-            System.out.println("Enter 5 Subject Credits: ");
-            for (int j = 0; j < 5; j++) {
-           
-                s[i].credits[j] = sc.nextInt();
-                SumOfCredits += s[i].credits[j];
-            }
-            
-            System.out.println("Enter 5 Subject Marks: ");
-            for (int k = 0; k < 5; k++) 
-                s[i].marks[k] = sc.nextInt();
-        
+            students[i] = new Student(name, usn);
+
      
-            displayStudentDetails(s[i]);
-            
-            ConvertMarksToGrades(s[i]);
-       
-            
-            float res = CalculateCGPA(s[i],SumOfCredits);
-            System.out.print("Your CGPA:  "+res);
+            System.out.println("Enter marks for 5 subjects (Semester 1, out of 100):");
+            for (int j = 0; j < 5; j++) {
+                System.out.print("Marks for subject " + (++j) + ": ");
+                students[i].marks[j] = scanner.nextInt();
+            }
+
+     
+            students[i].sgpaSem1 = students[i].calculateSGPA(students[i].marks);
+
+    
+            System.out.println("Enter marks for 5 subjects (Semester 2, out of 100):");
+            for (int j = 0; j < 5; j++) {
+                System.out.print("Marks for subject " + (j + 1) + ": ");
+                students[i].marks[j] = scanner.nextInt();
+            }
+
+      
+            students[i].sgpaSem2 = students[i].calculateSGPA(students[i].marks);
+
+      
+            students[i].calculateCGPA();
         }
-        sc.close(); // Close the scanner
-        
+
+       
+        System.out.println("\nStudent Details:");
+        for (int i = 0; i < n; i++) {
+            students[i].displayDetails();
+        }
+
+     
     }
 }
